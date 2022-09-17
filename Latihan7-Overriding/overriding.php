@@ -11,24 +11,19 @@ class Produk
     public $judul = "judul",
         $penulis = "penulis",
         $penerbit = "penerbit",
-        $harga = 0,
-        $jmlHalaman,
-        $waktuMain;
+        $harga = 0;
 
     // Method Constructor
     // kenapa menggunakan __ (underline)
     // dalam php __ berarti adalah method Special
     // dari PHP
-    public function __construct($judul, $penulis, $penerbit, $harga, $jmlHalaman, $waktuMain)
+    public function __construct($judul, $penulis, $penerbit, $harga)
     {
         // isi dari Construct akan otomatis di jalankan ketika inisiasi Object
         $this->judul = $judul;
         $this->penulis = $penulis;
         $this->penerbit = $penerbit;
         $this->harga = $harga;
-        $this->jmlHalaman = $jmlHalaman;
-        $this->waktuMain = $waktuMain;
-        // $this->tipe = $tipe; // Not Necessary
     }
 
     public function getLabel()
@@ -52,9 +47,23 @@ class Produk
 // jika tidak ditemukan variablenya maka program akan mencari kedalam parent class
 class Komik extends Produk
 {
-    public function getInfoKomik()
+    public $jmlHalaman;
+
+    // Override Method
+    public function __construct($judul, $penulis, $penerbit, $harga, $jmlHalaman)
     {
-        $str = "Komik : {$this->getInfoProduk()} (Rp. {$this->harga}) - {$this->jmlHalaman} Halaman.";
+        parent::__construct(
+            $judul,
+            $penulis,
+            $penerbit,
+            $harga
+        );
+        $this->jmlHalaman = $jmlHalaman;
+    }
+
+    public function getInfoProduk()
+    {
+        $str = "Komik : " . parent::getInfoProduk() . " (Rp. {$this->harga}) - {$this->jmlHalaman} Halaman.";
         return $str;
     }
 }
@@ -62,10 +71,19 @@ class Komik extends Produk
 // Child Class
 class Game extends Produk
 {
-    public function getInfoGame()
+    public $waktuMain;
+
+    // Override Method
+    public function __construct($judul, $penulis, $penerbit, $harga, $waktuMain)
+    {
+        parent::__construct($judul, $penulis, $penerbit, $harga);
+        $this->waktuMain = $waktuMain;
+    }
+
+    public function getInfoProduk()
     {
         $str =
-            "Game : {$this->getInfoProduk()} (Rp. {$this->harga}) - {$this->waktuMain} Jam.";
+            "Game :" . parent::getInfoProduk() . " (Rp. {$this->harga}) - {$this->waktuMain} Jam.";
         return $str;
     }
 }
@@ -82,10 +100,10 @@ class CetakInfoProduk
 }
 
 // Full Property
-$produk1 = new Komik("Naruto", "Masashi Kishimoto", "Shonen Jump", 30000, 100, 0);
-$produk2 = new Game("Uncharted", "Neil Druckmann", "Sony Computer", 250000, 0, 50);
+$produk1 = new Komik("Naruto", "Masashi Kishimoto", "Shonen Jump", 30000, 100);
+$produk2 = new Game("Uncharted", "Neil Druckmann", "Sony Computer", 250000, 50);
 
 // Method Inheritance
-echo $produk1->getInfoKomik();
+echo $produk1->getInfoProduk();
 echo "<br>";
-echo $produk2->getInfoGame();
+echo $produk2->getInfoProduk();
