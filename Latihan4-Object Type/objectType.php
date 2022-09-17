@@ -34,11 +34,22 @@ class Produk
     }
 }
 
+// Cetak Object Type
+class CetakInfoProduk
+{
+    public function cetak($produk)
+    {
+        $str = "{$produk->judul} | {$produk->getLabel()}, (Rp. {$produk->harga})";
+        return $str;
+    }
+}
+
 // Full Property
-$produk3 = new Produk("naruto", "Masashi Kishimoto", "Shonen Jump", 30000);
-$produk4 = new Produk("Uncharted", "Neil Druckmann", "Sony Computer", 250000);
+$produk1 = new Produk("naruto", "Masashi Kishimoto", "Shonen Jump", 30000);
+$produk2 = new Produk("Uncharted", "Neil Druckmann", "Sony Computer", 250000);
 
-
-echo "Komik : " . $produk3->getLabel();
 echo "<br>";
-echo "Game : " . $produk4->getLabel();
+
+// Object Type
+$infoProduk1 = new CetakInfoProduk($produk1);
+$infoProduk1 = new CetakInfoProduk($produk2);
